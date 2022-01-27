@@ -4,7 +4,7 @@ import sourceMaps from "rollup-plugin-sourcemaps"
 const pkg = require("./package.json")
 const camelCase = require("lodash.camelcase")
 
-const libraryName = "await-to-js"
+const libraryName = "await-to-go"
 
 export default {
   input: `compiled/${libraryName}.js`,

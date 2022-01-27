@@ -1,30 +1,30 @@
-import { to } from '../src/await-to-js'
+import { go } from '../src/await-to-go'
 
 describe('Await to test', async () => {
   it('should return a value when resolved', async () => {
     const testInput = 41;
     const promise = Promise.resolve(testInput);
 
-    const [err, data] = await to<number>(promise);
+    const [data, err] = await go<number>(promise);
 
-    expect(err).toBeNull();
     expect(data).toEqual(testInput);
+    expect(err).toBeNull();
   });
 
   it('should return an error when promise is rejected', async () => {
-    const testInput = 41;
+    // const testInput = 41;
     const promise = Promise.reject('Error');
 
-    const [err, data] = await to<number>(promise);
+    const [data, err] = await go<number>(promise);
 
+    // data can be any value, but err should be an error
     expect(err).toEqual('Error');
-    expect(data).toBeUndefined();
   });
 
   it('should add external properties to the error object', async () => {
     const promise = Promise.reject({ error: 'Error message' });
 
-    const [err] = await to<
+    const [, err] = await go<
       string,
       { error: string; extraKey: number }
     >(promise, {
@@ -40,7 +40,7 @@ describe('Await to test', async () => {
     let user: { name: string };
     let err: Error;
 
-    [err, user] = await to(Promise.resolve({ name: '123' }));
+    [user, err] = await go(Promise.resolve({ name: '123' }));
 
     expect(user.name).toEqual('123');
   });
